@@ -26,7 +26,7 @@ function Start() {
 function Update () {
 
 	CalcSpeed();
-
+	//transform.rotation.z=transform.rotation.z+.0005;
 //	if (Input.touchCount >= 1){ //&& Input.GetTouch(0).phase == TouchPhase.Moved) {
          //Get movement of the finger since last frame
 //        var touchDeltaPosition:Vector2 = Input.GetTouch(0).deltaPosition;
@@ -36,7 +36,8 @@ function Update () {
 //    }
     	
     //hitInfo stores what the raycast has hit
-    var hitInfo : RaycastHit;
+    var hitInfoRight : RaycastHit;
+    var hitInfoLeft : RaycastHit;
     var hitInfoAhead : RaycastHit;
     
     
@@ -46,24 +47,25 @@ function Update () {
    // var secondcastorigin:float=transform.position.x-5.0;
     
     //Cast a ray to the right and store in hitinfo
-    Physics.Raycast (transform.position, Vector3(0,0,1), hitInfo, Mathf.Infinity);
+    Physics.Raycast (transform.position, Vector3(0,0,1), hitInfoLeft, Mathf.Infinity);
+    Physics.Raycast (transform.position, Vector3(0,0,-1), hitInfoRight, Mathf.Infinity);
     Physics.Raycast (Vector3(transform.position.x-2,transform.position.y,transform.position.z), Vector3(0,0,1), hitInfoAhead, Mathf.Infinity);
     //set the plane's x pos and use offset	
     
-    diff=hitInfoAhead.point.z-hitInfo.point.z;
-    transform.position.z = hitInfo.point.z - 13;
+    diff=hitInfoAhead.point.z-hitInfoLeft.point.z;
+    transform.position.z = hitInfoLeft.point.z - (hitInfoLeft.point.z - hitInfoRight.point.z)/2;
 
     
     Debug.DrawRay(transform.position, Vector3(0,0,1)*50, Color.red);
     Debug.DrawRay(Vector3(transform.position.x-2,transform.position.y,transform.position.z), Vector3(0,0,1)*50, Color.green);
     
     if (diff >= 0.001){
-    transform.rotation.x=transform.rotation.x+(.02*(hitInfoAhead.point.z-hitInfo.point.z));
+    transform.rotation.x=transform.rotation.x+(.02*(hitInfoAhead.point.z-hitInfoLeft.point.z));
     
     }
     
     else if (diff <= -0.001){
-    transform.rotation.x=transform.rotation.x-(.02*(hitInfo.point.z-hitInfoAhead.point.z));
+    transform.rotation.x=transform.rotation.x-(.02*(hitInfoLeft.point.z-hitInfoAhead.point.z));
    
     }
     
@@ -101,6 +103,3 @@ function CalcSpeed(){
 	rigidbody.velocity = transform.TransformDirection(planeVel)/(0.05*rigidbody.position.y+1);
 }
 
-function OnCollisionEnter(){
-	audio.PlayOneShot(hitNoise);
-}
