@@ -25,7 +25,6 @@ function Start() {
 }
 function Update () {
 
-	print(diff);
 
 	CalcSpeed();
 	//transform.rotation.z=transform.rotation.z+.0005;
@@ -49,9 +48,9 @@ function Update () {
    // var secondcastorigin:float=transform.position.x-5.0;
     
     //Cast a ray to the right and store in hitinfo
-    Physics.Raycast (transform.position, Vector3(0,0,1), hitInfoLeft, Mathf.Infinity);
-    Physics.Raycast (transform.position, Vector3(0,0,-1), hitInfoRight, Mathf.Infinity);
-    Physics.Raycast (Vector3(transform.position.x-2,transform.position.y,transform.position.z), Vector3(0,0,1), hitInfoAhead, Mathf.Infinity);
+    Physics.Raycast (Vector3(transform.position.x-10,transform.position.y,transform.position.z), Vector3(0,0,1), hitInfoLeft, Mathf.Infinity);
+    Physics.Raycast (Vector3(transform.position.x-10,transform.position.y,transform.position.z), Vector3(0,0,-1), hitInfoRight, Mathf.Infinity);
+    Physics.Raycast (Vector3(transform.position.x-12,transform.position.y,transform.position.z), Vector3(0,0,1), hitInfoAhead, Mathf.Infinity);
     //set the plane's x pos and use offset	
     
     diff=hitInfoAhead.point.z-hitInfoLeft.point.z;
@@ -59,14 +58,14 @@ function Update () {
 
     
     Debug.DrawRay(transform.position, Vector3(0,0,1)*50, Color.red);
-    Debug.DrawRay(Vector3(transform.position.x-2,transform.position.y,transform.position.z), Vector3(0,0,1)*50, Color.green);
+    Debug.DrawRay(Vector3(transform.position.x-5,transform.position.y,transform.position.z), Vector3(0,0,1)*50, Color.green);
     
-    if (diff >= 0.001){
+    if (diff >= 0.00){
     transform.rotation.x=transform.rotation.x+(.01*(hitInfoAhead.point.z-hitInfoLeft.point.z));
     
     }
     
-    if (diff <= -0.001){
+    if (diff <= 0.00){
     transform.rotation.x=transform.rotation.x-(.01*(hitInfoLeft.point.z-hitInfoAhead.point.z));
    
     }

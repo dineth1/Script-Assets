@@ -5,47 +5,41 @@ var rot:int;
 
 function Start () {
 
-rot=0;
+rot=1;
 
 }
 
+
 function Update () {
-
-	print(transform.rotation.z);
+print(rot);
 	
- if (Input.GetTouch(0).phase==TouchPhase.Stationary) {
+rot=0;
+	
+if (Input.GetTouch(0).phase==TouchPhase.Stationary) {
+
 	print("touched");
-	//transform.position.y=transform.position.y+.3;
-	if (transform.rotation.z>-.005){
-	
-	rigidbody.AddTorque(0,0,-.1);
-	}
-	//transform.rotation.z=transform.rotation.z-.001;
-	
+	transform.Rotate(0,0,-20*Time.deltaTime, Space.World);
+	rot=1;
 	}
 
- if (Input.GetTouch(0).phase==TouchPhase.Ended) {
-	rot=transform.rotation.z;
 
-	RotateDown();
+if(Input.GetTouch(0).phase==TouchPhase.Ended) {
+RotateDown();
+}
 
-	
-	}
-	
-	
-//if (EndTouch==1){
-//	rigidbody.AddRelativeTorque(0,-3,0);
-//	print("fu");
-	//}
-	
+
+
+if(rot==0){
+	transform.Rotate(0,0,30*Time.deltaTime, Space.World);
+}
+
 }
 
 
 function RotateDown(){
-	while(transform.rotation.z<=-.02){
-	
-	rigidbody.AddTorque(0,0,.14);
-	//transform.rotation.z=transform.rotation.z+.001;
+
+	while(rot==0){
+		transform.Rotate(0,0,30*Time.deltaTime, Space.World);
 	yield;
 	}
 	
