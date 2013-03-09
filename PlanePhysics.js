@@ -25,6 +25,8 @@ function Start() {
 }
 function Update () {
 
+	print(diff);
+
 	CalcSpeed();
 	//transform.rotation.z=transform.rotation.z+.0005;
 //	if (Input.touchCount >= 1){ //&& Input.GetTouch(0).phase == TouchPhase.Moved) {
@@ -40,7 +42,7 @@ function Update () {
     var hitInfoLeft : RaycastHit;
     var hitInfoAhead : RaycastHit;
     
-    
+   
     //transform.position.y=transform.position.y-.1;
 	//rigidbody.AddRelativeTorque(0,-.01,0);
     
@@ -60,18 +62,21 @@ function Update () {
     Debug.DrawRay(Vector3(transform.position.x-2,transform.position.y,transform.position.z), Vector3(0,0,1)*50, Color.green);
     
     if (diff >= 0.001){
-    transform.rotation.x=transform.rotation.x+(.02*(hitInfoAhead.point.z-hitInfoLeft.point.z));
+    transform.rotation.x=transform.rotation.x+(.01*(hitInfoAhead.point.z-hitInfoLeft.point.z));
     
     }
     
-    else if (diff <= -0.001){
-    transform.rotation.x=transform.rotation.x-(.02*(hitInfoLeft.point.z-hitInfoAhead.point.z));
+    if (diff <= -0.001){
+    transform.rotation.x=transform.rotation.x-(.01*(hitInfoLeft.point.z-hitInfoAhead.point.z));
    
     }
     
-    else if (diff >= -0.001 && diff < 0.001){
+    if (diff >= -0.9 && diff <= 0.9){
     print('straight');
-    transform.rotation.x=-0.707;
+    
+    transform.rotation.x = Mathf.Lerp(transform.rotation.x, -0.707, 1.5*Time.deltaTime);
+    
+    //transform.rotation.x=-0.707;
     }
     
     
